@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cyzexx VIP + Telegram Demo</title>
+<style>
+body {margin:0; font-family: Arial, sans-serif; background:#000; color:#FFD700; line-height:1.6; scroll-behavior: smooth;}
+header {background:#111; padding:20px; text-align:center;}
+nav {background:#111; padding:10px; text-align:center;}
+nav a {color:#FFD700; margin:0 12px; text-decoration:none; font-weight:bold; cursor:pointer;}
+section {padding:60px 20px; max-width:1000px; margin:auto; border-bottom:1px solid #FFD700;}
+h2 {color:#FFD700;}
+.box {background:#111; padding:20px; margin:20px 0; border-radius:8px; border:1px solid #FFD700;}
+button {padding:12px 20px; margin:10px; font-weight:bold; border:none; border-radius:6px; cursor:pointer; background:#FFD700; color:#000;}
+.hidden {display:none;}
+iframe {width:100%; height:500px; border:0; border-radius:8px;}
+ul {padding-left:20px;}
+input[type="text"], input[type="password"] {padding:10px; margin:5px 0; width:80%; border-radius:6px; border:none;}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>CYZEXX</h1>
+  <p>Aqlli treyding va real tahlil</p>
+</header>
+
+<nav id="menu"></nav>
+
+<!-- Home -->
+<section id="home">
+  <h2>Nima uchun Cyzexx.com?</h2>
+  <div class="box">
+    <p>Cyzexx platformasi treyderlarga ta'lim berish va bozor tahlili uchun.</p>
+  </div>
+</section>
+
+<!-- VIP murojaat -->
+<section id="vip">
+  <h2>VIP & Kontent</h2>
+  <div class="box">
+    <p>VIP login olish uchun quyidagi tugmani bosing:</p>
+    <button onclick="requestVIP()">VIP uchun murojaat qilish</button>
+  </div>
+</section>
+
+<!-- To‘lov tizimi (demo) -->
+<section id="payment">
+  <h2>To‘lov tizimi (demo)</h2>
+  <div class="box">
+    <button onclick="payment('PayPal')">PayPal orqali to‘lov</button>
+    <button onclick="payment('Stripe')">Stripe orqali to‘lov</button>
+    <button onclick="payment('USDT')">USDT orqali to‘lov</button>
+  </div>
+</section>
+
+<!-- Admin panel / faqat telefon -->
+<section id="adminPanel" class="hidden">
+  <div class="box">
+    <h2>Admin Panel</h2>
+    <button onclick="notifyPayment()">To‘lov qilgan foydalanuvchi</button>
+    <button onclick="notifyVIP()">VIP login/parol so‘rovi</button>
+  </div>
+</section>
+
+<!-- Roadmap -->
+<section id="roadmap">
+  <h2>Cyzex.com Yo‘l xaritasi</h2>
+  <div class="box">
+    <ul>
+      <li>1-bosqich: Platforma ishga tushirildi</li>
+      <li>2-bosqich: Live chartlar qo‘shildi</li>
+      <li>3-bosqich: Bitget referal integratsiyasi</li>
+    </ul>
+  </div>
+</section>
+
+<!-- Blog / Yangiliklar -->
+<section id="blog">
+  <h2>Yangiliklar va Blog</h2>
+  <div class="box">
+    <ul>
+      <li>2026-01-30: BTC bozor tahlili</li>
+      <li>2026-01-28: EMA strategiya</li>
+    </ul>
+  </div>
+</section>
+
+<!-- Live Chart -->
+<section id="chart">
+  <h2>Live BTC Chart</h2>
+  <div class="box">
+    <iframe src="https://s.tradingview.com/widgetembed/?symbol=BITSTAMP:BTCUSD&interval=D&theme=Dark&style=1" allowfullscreen></iframe>
+  </div>
+</section>
+
+<script>
+// Telefon aniqlash
+function isMyPhone() { return window.innerWidth <= 480; }
+
+// Admin panel faqat telefon
+document.addEventListener("DOMContentLoaded", function(){
+  if(isMyPhone()){ document.getElementById("adminPanel").classList.remove("hidden"); }
+
+  const menu = document.getElementById("menu");
+  let links = '';
+  links += '<a href="#home">Nima uchun Cyzexx?</a>';
+  links += '<a href="#vip">VIP & Kontent</a>';
+  links += '<a href="#payment">To‘lov</a>';
+  if(isMyPhone()){ links += '<a href="#adminPanel">Admin Panel</a>'; }
+  links += '<a href="#roadmap">Yo‘l xaritasi</a>';
+  links += '<a href="#blog">Yangiliklar</a>';
+  links += '<a href="#chart">Live Chart</a>';
+  menu.innerHTML = links;
+});
+
+// VIP murojaat → Telegram bot
+function requestVIP(){
+  alert("Siz VIP login olish uchun murojaat qildingiz! Admin bilan bog‘lanishingiz kerak.");
+
+  const botToken = "YOUR_BOT_TOKEN"; // BotFather orqali olingan token
+  const chatId = "YOUR_CHAT_ID";     // Sizning Telegram chat ID yoki @Cyzexx_support_bot
+  const message = encodeURIComponent("Yangi VIP murojaat! Foydalanuvchi saytdan murojaat qildi.");
+
+  fetch(`https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${message}`)
+    .then(response => console.log("Telegram xabari yuborildi"))
+    .catch(err => console.error("Xato:", err));
+}
+
+// To‘lov tugmalari demo
+function payment(method){
+  alert("Foydalanuvchi " + method + " orqali to‘lov qilmoqchi. Sizga xabar keladi.");
+}
+
+// Admin tugmalar demo
+function notifyPayment(){ alert("Foydalanuvchi to‘lov qilgan! Siz bilan bog‘lanish kerak."); }
+function notifyVIP(){ alert("Foydalanuvchi VIP login/parol so‘rovi! Siz bilan aloqa o‘rnatish kerak."); }
+</script>
+
+</body>
+</html>
